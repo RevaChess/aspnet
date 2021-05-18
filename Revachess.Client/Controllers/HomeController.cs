@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Revachess.Client.Models;
 
 namespace Medialab.Client.Controllers
 {
@@ -19,11 +20,11 @@ namespace Medialab.Client.Controllers
     {
       var client = new HttpClient();
       var response = await client.GetAsync($"{_configuration["Services:webapi"]}/game");
-      List<string> result = null;
+      List<Game> result = null;
 
       if (response.IsSuccessStatusCode)
       {
-        result = JsonConvert.DeserializeObject<List<string>>(await response.Content.ReadAsStringAsync());
+        result = JsonConvert.DeserializeObject<List<Game>>(await response.Content.ReadAsStringAsync());
         ViewBag.Games = result;
       }
       return View("index");
