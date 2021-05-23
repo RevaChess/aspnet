@@ -30,6 +30,19 @@ namespace Medialab.Client.Controllers
       return View("index");
     }
 
+    public async Task<List<Game>> GetUsers()
+    {
+      var client = new HttpClient();
+      var response = await client.GetAsync($"{_configuration["Services:webapi"]}/user");
+      List<Game> result = null;
+
+      if (response.IsSuccessStatusCode)
+      {
+        result = JsonConvert.DeserializeObject<List<Game>>(await response.Content.ReadAsStringAsync());
+      }
+      return result;
+    }
+
     [Route("/register")]
     public IActionResult Register()
     {
