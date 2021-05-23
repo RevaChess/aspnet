@@ -16,29 +16,16 @@ namespace Medialab.Client.Controllers
     {
       _configuration = configuration;
     }
-    public async Task<IActionResult> Index()
-    {
-      var client = new HttpClient();
-      var response = await client.GetAsync($"{_configuration["Services:webapi"]}/game");
-      List<Game> result = null;
 
-      if (response.IsSuccessStatusCode)
-      {
-        result = JsonConvert.DeserializeObject<List<Game>>(await response.Content.ReadAsStringAsync());
-        ViewBag.Games = result;
-      }
-      return View("index");
-    }
-
-    public async Task<List<Game>> GetUsers()
+    public async Task<List<User>> GetUsers()
     {
       var client = new HttpClient();
       var response = await client.GetAsync($"{_configuration["Services:webapi"]}/user");
-      List<Game> result = null;
+      List<User> result = null;
 
       if (response.IsSuccessStatusCode)
       {
-        result = JsonConvert.DeserializeObject<List<Game>>(await response.Content.ReadAsStringAsync());
+        result = JsonConvert.DeserializeObject<List<User>>(await response.Content.ReadAsStringAsync());
       }
       return result;
     }
