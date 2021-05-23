@@ -40,5 +40,18 @@ jobs:
       - run: docker image push akovi66/revachess-aspnet
       - run: docker logout
 
+  deploy:
+    needs:
+      - package
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: revachessaspnet
+          images: akovi66/revachess-aspnet
+
 name: pipeline
 on: push
