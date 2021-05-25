@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Revachess.Client.Models;
 
-namespace Medialab.Client.Controllers
+namespace Revachess.Client.Controllers
 {
   [Route("[controller]")]
   public class HomeController : Controller
@@ -16,24 +16,19 @@ namespace Medialab.Client.Controllers
     {
       _configuration = configuration;
     }
-    public async Task<IActionResult> Index()
-    {
-      var client = new HttpClient();
-      var response = await client.GetAsync($"{_configuration["Services:webapi"]}/game");
-      List<Game> result = null;
 
-      if (response.IsSuccessStatusCode)
-      {
-        result = JsonConvert.DeserializeObject<List<Game>>(await response.Content.ReadAsStringAsync());
-        ViewBag.Games = result;
-      }
-      return View("index");
+    [HttpGet]
+    public IActionResult Login()
+    {
+      UserViewModel user = new UserViewModel();
+      return View("index", user);
     }
 
     [Route("/register")]
     public IActionResult Register()
     {
-      return View("register");
+      UserViewModel user = new UserViewModel();
+      return View("register", user);
     }
   }
 }
