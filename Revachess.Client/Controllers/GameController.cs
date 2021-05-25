@@ -96,7 +96,7 @@ namespace Revachess.Client.Controllers
         item.Password.Equals(user.Password))
         {
           TempData["username"] = item.UserName;
-          return Ok("You are logged in successfully");
+          return View("chessboard");
         }
       }
 
