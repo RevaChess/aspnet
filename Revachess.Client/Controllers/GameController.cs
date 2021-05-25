@@ -87,5 +87,21 @@ namespace Revachess.Client.Controllers
       return Ok("ERROR");
     }
 
+    public async Task<IActionResult> Get(UserViewModel user)
+    {
+      List<User> Users = await GetUsers();
+      foreach (var item in Users)
+      {
+        if (item.UserName.ToLower().Equals(user.UserName.ToLower()) && 
+        item.Password.Equals(user.Password))
+        {
+          TempData["username"] = item.UserName;
+          return Ok("You are logged in successfully");
+        }
+      }
+
+      return Ok("index");
+    }
+
   }
 }
