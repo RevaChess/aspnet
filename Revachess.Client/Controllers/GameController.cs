@@ -81,7 +81,7 @@ namespace Revachess.Client.Controllers
                 if (response.IsSuccessStatusCode)  
                 {  
                   TempData["username"] = user.UserName;
-                    return Ok("you are added to the database");
+                    return Ok("you are added to the database and you are login");
                 }  
             }  
       return Ok("ERROR");
