@@ -1,0 +1,18 @@
+@model Revachess.Client.Models.UserViewModel
+<div class="mx-auto align-middle" style="width: 300px;">
+  <h3>Register:</h3>
+  <form action="game/index" method="post">
+    <div class=" form-group">
+      <label for="InputUser">Username</label>
+      <input asp-for="UserName" type="text" class="form-control" id="UserName" aria-describedby="userHelp"
+        placeholder="Enter username">
+      @Html.ValidationMessageFor(a => a.UserName, "", new {@class = "text-danger"})
+    </div>
+    <div class="form-group">
+      <label for="InputPassword1">Password</label>
+      <input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Password">
+      @Html.ValidationMessageFor(a => a.Password, "", new {@class = "text-danger"})
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
