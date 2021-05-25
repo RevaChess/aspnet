@@ -43,7 +43,7 @@ namespace Revachess.Client.Controllers
       return result;
     }
 
-    
+
 
     // [HttpGet]
     // [HttpPost]
@@ -73,17 +73,17 @@ namespace Revachess.Client.Controllers
       {
         if (item.UserName == user.UserName) return View("register");
       }
-      using (var client = new HttpClient())  
-            {  
-                User u = new User(){ UserName = user.UserName, Password = user.Password };  
-                client.BaseAddress = new Uri("https://revachesswebapi.azurewebsites.net/play");  
-                var response = client.PostAsJsonAsync("https://revachesswebapi.azurewebsites.net/play", u).Result;  
-                if (response.IsSuccessStatusCode)  
-                {  
-                  TempData["username"] = user.UserName;
-                    return Ok("you are added to the database and you are login");
-                }  
-            }  
+      using (var client = new HttpClient())
+      {
+        User u = new User() { UserName = user.UserName, Password = user.Password };
+        client.BaseAddress = new Uri("https://revachesswebapi.azurewebsites.net/play");
+        var response = client.PostAsJsonAsync("https://revachesswebapi.azurewebsites.net/play", u).Result;
+        if (response.IsSuccessStatusCode)
+        {
+          TempData["username"] = user.UserName;
+          return Ok("you are added to the database and you are login");
+        }
+      }
       return Ok("ERROR");
     }
 
@@ -92,7 +92,7 @@ namespace Revachess.Client.Controllers
       List<User> Users = await GetUsers();
       foreach (var item in Users)
       {
-        if (item.UserName.ToLower().Equals(user.UserName.ToLower()) && 
+        if (item.UserName.ToLower().Equals(user.UserName.ToLower()) &&
         item.Password.Equals(user.Password))
         {
           TempData["username"] = item.UserName;
@@ -100,7 +100,7 @@ namespace Revachess.Client.Controllers
         }
       }
 
-      return Ok("index");
+      return View("index");
     }
 
   }
