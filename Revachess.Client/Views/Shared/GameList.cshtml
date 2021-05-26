@@ -2,10 +2,14 @@
     <h2>Users</h2>
     @foreach (var item in ViewBag.Users)
     {
-        <div class="row" style="padding: 10px;">
-            @item.UserName
-            <br>
-            <button type="button" class="btn btn-primary btn-sm">Play</button>
+        <div class="row" style="padding: 10px; border-style: groove; background-color: LightGray;">
+            <div class="col">
+                @item.UserName
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-sm" style="float: right;">Play</button>
+            </div>
+
         </div>
     }
 </div>
