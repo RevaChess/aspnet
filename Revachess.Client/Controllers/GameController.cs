@@ -96,12 +96,12 @@ namespace Revachess.Client.Controllers
         item.Password.Equals(user.Password))
         {
           TempData["username"] = item.UserName;
-          return View("chessboard");
+          Users.Remove(item);
+          ViewBag.Users = Users;
+          return View("gamelist");
         }
       }
-
       return View("index");
     }
-
   }
 }
