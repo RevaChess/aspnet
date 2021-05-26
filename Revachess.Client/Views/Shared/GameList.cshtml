@@ -13,3 +13,18 @@
         </div>
     }
 </div>
+<div class="mx-auto align-middle" style="width: 300px;">
+    <h2>Games</h2>
+    @foreach (var item in ViewBag.Games)
+    {
+        <div class="row" style="padding: 10px; border-style: groove; background-color: LightGray;">
+            <div class="col">
+                @item.Name
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-sm" style="float: right;">Play</button>
+            </div>
+
+        </div>
+    }
+</div>
