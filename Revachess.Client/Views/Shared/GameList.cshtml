@@ -7,7 +7,11 @@
                 @item.UserName
             </div>
             <div class="col">
-                <button type="button" class="btn btn-primary btn-sm" style="float: right;">Play</button>
+                <asp:Button type="button" class="btn btn-primary btn-sm" style="float: right;" runat="server"
+                onclick="makeGame">
+                    Play
+                </asp:Button>
+                @* <button type="button" class="btn btn-primary btn-sm" style="float: right;">Play</button> *@
             </div>
 
         </div>
