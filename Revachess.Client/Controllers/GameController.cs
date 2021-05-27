@@ -49,6 +49,7 @@ namespace Revachess.Client.Controllers
     [HttpPost]
     public IActionResult Play(UserViewModel user)
     {
+      ViewBag.Username = TempData["username"];
       return View("play");
     }
 
