@@ -1,0 +1,46 @@
+<div class="mx-auto align-middle" style="width: 300px;">
+    <h2>Users</h2>
+    @foreach (var item in ViewBag.Users)
+    {
+        <div class="row" style="padding: 10px; border-style: groove; background-color: LightGray;">
+            <div class="col">
+                @item.UserName
+            </div>
+            <div class="col">
+                @* <asp:Button type="button" class="btn btn-primary btn-sm" style="float: right;" runat="server"
+                    onclick="makeGame">
+                    Play
+                    </asp:Button> *@
+                <button type="button" class="btn btn-primary btn-sm" style="float: right;"
+                onClick="createGame()">Play</button>
+            </div>
+
+        </div>
+    }
+</div>
+<div class="mx-auto align-middle" style="width: 300px;">
+    <h2>Games</h2>
+    @foreach (var item in ViewBag.Games)
+    {
+        <div class="row" style="padding: 10px; border-style: groove; background-color: LightGray;">
+            <div class="col">
+                @item.Name
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-sm" style="float: right;">Play</button>
+            </div>
+
+        </div>
+    }
+</div>
+
+<script>
+    function createGame(user) {
+        $.ajax({
+            url: 'https://localhost:5001/game/get',
+            data: { user: user }
+        }).done(function () {
+            alert('Added');
+        });
+    }
+</script>
