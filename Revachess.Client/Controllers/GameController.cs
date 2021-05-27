@@ -45,23 +45,12 @@ namespace Revachess.Client.Controllers
 
 
 
-    // [HttpGet]
-    // [HttpPost]
-    // public IActionResult AddUser(UserViewModel user)
-    // {
-    //   using (var client = new HttpClient())  
-    //         {  
-    //             User u = new User(){ UserName = user.UserName, Password = user.Password };  
-    //             client.BaseAddress = new Uri("https://revachesswebapi.azurewebsites.net/play");  
-    //             var response = client.PostAsJsonAsync("https://revachesswebapi.azurewebsites.net/play", u).Result;  
-    //             if (response.IsSuccessStatusCode)  
-    //             {  
-    //               TempData["username"] = user.UserName;
-    //                 return Ok("you are added to the database");
-    //             }  
-    //         }  
-    //   return Ok("ERROR");
-    // }
+    [HttpGet]
+    [HttpPost]
+    public IActionResult Play(UserViewModel user)
+    {
+      return View("play");
+    }
 
 
     [HttpGet]
@@ -109,7 +98,8 @@ namespace Revachess.Client.Controllers
             }
           }
           ViewBag.Games = gametemp;
-          return View("gamelist");
+          UserViewModel u = user;
+          return View("gamelist", u);
         }
       }
       return View("index");
