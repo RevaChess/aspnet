@@ -97,7 +97,6 @@ namespace Revachess.Client.Controllers
         item.Password.Equals(user.Password))
         {
           TempData["username"] = item.UserName;
-          TempData["user"] = item;
           Users.Remove(item);
           ViewBag.Users = Users;
           ViewBag.CurrentUser = item;
@@ -117,9 +116,21 @@ namespace Revachess.Client.Controllers
     }
     public async Task<IActionResult> makeGameAsync(string CurrentUserName, string OponentUsername)
     {
-      User CurrentUser = (User)TempData["user"];
-      User Oponent;
       List<User> Users = await GetUsers();
+      string CurrentUsername = (string)TempData["username"];
+      User Oponent = null;
+      User CurrentUser = null;
+
+      foreach (var user in Users)
+      {
+        if (user.UserName == CurrentUsername)
+        {
+          CurrentUser = user;
+          break;
+        }
+      }
+
+
       foreach (var user in Users)
       {
         if (user.UserName == OponentUsername)
@@ -128,18 +139,13 @@ namespace Revachess.Client.Controllers
           var Game = new Game(CurrentUser, Oponent);
           ViewBag.CurrentUser = CurrentUser;
           ViewBag.Oponent = Oponent;
-          TempData["user"] = CurrentUser;
-          TempData["oponent"] = Oponent;
+          TempData["username"] = CurrentUsername;
+          TempData["oponent"] = OponentUsername;
           return View("play");
         }
       }
       return View("play");
     }
 
-
-    public IActionResult makeGame(object sender, EventArgs e)
-    {
-      return View("play");
-    }
   }
 }
