@@ -1,5 +1,6 @@
 <p id="statusElement">White to move.</p>
-<div id="chessboard" style="max-width: 500px;max-lenght: 500px;"></div>
+<div id="chessboard" style="max-width: 422px;max-width: 422px;"></div>
+
 
 
 <link rel="stylesheet" href="~/AbChess-0.3.0/AbChess-0.3.0.css">
@@ -8,10 +9,10 @@
     var options = {
         imagesPath: "/staticfiles/AbChess-0.3.0/images/wikipedia/"
     };
-
+    var abChess = new AbChess("chessboard", options);
     var movesCount = 0;
     var statusElement = document.getElementById("statusElement");
-    var abChess = new AbChess("chessboard", options);
+    abChess = new AbChess("chessboard");
 
     function updateStatus() {
         var status = " to move.";
@@ -30,13 +31,13 @@
             status = " is in check.";
         }
         statusElement.innerText = turn + status;
+
         //TODO: Update gamestate
         var gamestate = abChess.getFEN(movesCount);
     }
-    
+
     abChess.setFEN();
     abChess.onMovePlayed(updateStatus);
-
 </script>
 
 
