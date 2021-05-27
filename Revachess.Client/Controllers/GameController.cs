@@ -114,6 +114,8 @@ namespace Revachess.Client.Controllers
       }
       return View("index");
     }
+
+
     public async Task<IActionResult> makeGameAsync(string CurrentUserName, string OponentUsername)
     {
       List<User> Users = await GetUsers();
@@ -130,22 +132,45 @@ namespace Revachess.Client.Controllers
         }
       }
 
-
       foreach (var user in Users)
       {
         if (user.UserName == OponentUsername)
         {
           Oponent = user;
           var Game = new Game(CurrentUser, Oponent);
+          Game.Name = CurrentUserName + " " + OponentUsername;
           ViewBag.CurrentUser = CurrentUser;
           ViewBag.Oponent = Oponent;
           TempData["username"] = CurrentUsername;
           TempData["oponent"] = OponentUsername;
+          AddGame(Game);
           return View("play");
         }
       }
       return View("play");
     }
 
+
+    public async void AddGame(Game Game)
+    {
+      List<Game> Games = await GetGames();
+      foreach (var game in Games)
+      {
+        if (game.Player1 == Game.Player1 && game.Player2 == Game.Player2)
+        {
+          return;
+        }
+      }
+
+      using (var client = new HttpClient())
+      {
+        client.BaseAddress = new Uri("https://revachesswebapi.azurewebsites.net/addgame");
+        var response = client.PostAsJsonAsync("https://revachesswebapi.azurewebsites.net/addgame", Game).Result;
+        if (response.IsSuccessStatusCode)
+        {
+          TempData["gameName"] = Game.Name;
+        }
+      }
+    }
   }
 }
