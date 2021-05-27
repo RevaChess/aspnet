@@ -90,18 +90,52 @@ namespace Revachess.Client.Controllers
     public async Task<IActionResult> Get(UserViewModel user)
     {
       List<User> Users = await GetUsers();
+      List<Game> Games = await GetGames();
       foreach (var item in Users)
       {
         if (item.UserName.ToLower().Equals(user.UserName.ToLower()) &&
         item.Password.Equals(user.Password))
         {
           TempData["username"] = item.UserName;
+          TempData["user"] = item;
+          Users.Remove(item);
+          ViewBag.Users = Users;
+          ViewBag.CurrentUser = item;
+          List<Game> gametemp = new List<Game>();
+          foreach (var game in Games)
+          {
+            if (game.Player1 == item || game.Player2 == item)
+            {
+              gametemp.Add(game);
+            }
+          }
+          ViewBag.Games = gametemp;
+          return View("gamelist");
+        }
+      }
+      return View("index");
+    }
+    public async Task<IActionResult> makeGameAsync(string OponentUsername)
+    {
+      User CurrentUser = (User)TempData["user"];
+      User Oponent;
+      List<User> Users = await GetUsers();
+      foreach (var user in Users)
+      {
+        if (user.UserName == OponentUsername)
+        {
+          Oponent = user;
+          var Game = new Game(CurrentUser, Oponent);
+          ViewBag.CurrentUser = CurrentUser;
+          ViewBag.Oponent = Oponent;
+          TempData["user"] = CurrentUser;
+          TempData["oponent"] = Oponent;
           return View("play");
         }
       }
-
-      return View("index");
+      return View("play");
     }
+
 
   }
 }
