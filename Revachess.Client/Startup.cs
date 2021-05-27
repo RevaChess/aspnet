@@ -57,6 +57,7 @@ namespace Revachess.Client
       {
         endpoints.MapControllers();
         endpoints.MapRazorPages();
+        endpoints.MapHub<ChatHub>("/chatHub");
       });
     }
   }
