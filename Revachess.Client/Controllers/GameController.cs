@@ -137,5 +137,9 @@ namespace Revachess.Client.Controllers
     }
 
 
+    public IActionResult makeGame(object sender, EventArgs e)
+    {
+      return View("play");
+    }
   }
 }
