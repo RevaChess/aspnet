@@ -1,3 +1,4 @@
+<p id="statusElement">White to move.</p>
 <div id="chessboard" style="max-width: 500px;max-lenght: 500px;"></div>
 
 
@@ -8,8 +9,33 @@
         imagesPath: "/staticfiles/AbChess-0.3.0/images/wikipedia/"
     };
 
+    var movesCount = 0;
+    var statusElement = document.getElementById("statusElement");
     var abChess = new AbChess("chessboard", options);
+
+    function updateStatus() {
+        var status = " to move.";
+        var turn = "White";
+        movesCount += 1;
+        if (abChess.getActiveColor(movesCount) === "b") {
+            turn = "Black"
+        }
+        if (abChess.isCheckmate(movesCount)) {
+            status = "is checkmated.";
+        }
+        else if (abChess.isStalemate(movesCount)) {
+            status = "to move, but it is a stalemate.";
+        }
+        else if (abChess.isCheck(movesCount)) {
+            status = " is in check.";
+        }
+        statusElement.innerText = turn + status;
+        //TODO: Update gamestate
+        var gamestate = abChess.getFEN(movesCount);
+    }
+    
     abChess.setFEN();
+    abChess.onMovePlayed(updateStatus);
 
 </script>
 
