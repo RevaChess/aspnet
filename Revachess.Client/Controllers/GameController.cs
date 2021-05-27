@@ -115,7 +115,7 @@ namespace Revachess.Client.Controllers
       }
       return View("index");
     }
-    public async Task<IActionResult> makeGameAsync(string OponentUsername)
+    public async Task<IActionResult> makeGameAsync(string CurrentUserName, string OponentUsername)
     {
       User CurrentUser = (User)TempData["user"];
       User Oponent;
