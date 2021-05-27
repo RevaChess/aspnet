@@ -45,23 +45,12 @@ namespace Revachess.Client.Controllers
 
 
 
-    // [HttpGet]
-    // [HttpPost]
-    // public IActionResult AddUser(UserViewModel user)
-    // {
-    //   using (var client = new HttpClient())  
-    //         {  
-    //             User u = new User(){ UserName = user.UserName, Password = user.Password };  
-    //             client.BaseAddress = new Uri("https://revachesswebapi.azurewebsites.net/play");  
-    //             var response = client.PostAsJsonAsync("https://revachesswebapi.azurewebsites.net/play", u).Result;  
-    //             if (response.IsSuccessStatusCode)  
-    //             {  
-    //               TempData["username"] = user.UserName;
-    //                 return Ok("you are added to the database");
-    //             }  
-    //         }  
-    //   return Ok("ERROR");
-    // }
+    [HttpGet]
+    [HttpPost]
+    public IActionResult Play(UserViewModel user)
+    {
+      return View("play");
+    }
 
 
     [HttpGet]
@@ -109,15 +98,69 @@ namespace Revachess.Client.Controllers
             }
           }
           ViewBag.Games = gametemp;
-          return View("gamelist");
+          UserViewModel u = user;
+          return View("gamelist", u);
         }
       }
       return View("index");
     }
 
-    public IActionResult makeGame(object sender, EventArgs e)
+
+    public async Task<IActionResult> makeGameAsync(string CurrentUserName, string OponentUsername)
     {
+      List<User> Users = await GetUsers();
+      string CurrentUsername = (string)TempData["username"];
+      User Oponent = null;
+      User CurrentUser = null;
+
+      foreach (var user in Users)
+      {
+        if (user.UserName == CurrentUsername)
+        {
+          CurrentUser = user;
+          break;
+        }
+      }
+
+      foreach (var user in Users)
+      {
+        if (user.UserName == OponentUsername)
+        {
+          Oponent = user;
+          var Game = new Game(CurrentUser, Oponent);
+          Game.Name = CurrentUserName + " " + OponentUsername;
+          ViewBag.CurrentUser = CurrentUser;
+          ViewBag.Oponent = Oponent;
+          TempData["username"] = CurrentUsername;
+          TempData["oponent"] = OponentUsername;
+          AddGame(Game);
+          return View("play");
+        }
+      }
       return View("play");
+    }
+
+
+    public async void AddGame(Game Game)
+    {
+      List<Game> Games = await GetGames();
+      foreach (var game in Games)
+      {
+        if (game.Player1 == Game.Player1 && game.Player2 == Game.Player2)
+        {
+          return;
+        }
+      }
+
+      using (var client = new HttpClient())
+      {
+        client.BaseAddress = new Uri("https://revachesswebapi.azurewebsites.net/addgame");
+        var response = client.PostAsJsonAsync("https://revachesswebapi.azurewebsites.net/addgame", Game).Result;
+        if (response.IsSuccessStatusCode)
+        {
+          TempData["gameName"] = Game.Name;
+        }
+      }
     }
   }
 }
