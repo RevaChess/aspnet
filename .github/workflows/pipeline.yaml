@@ -47,10 +47,10 @@ jobs:
     steps:
       - uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS_STUDENT }}
       - uses: azure/webapps-deploy@v2
         with:
-          app-name: revachessaspnet2
+          app-name: revachess
           images: akovi66/revachess-aspnet
 
 name: pipeline
